@@ -82,21 +82,21 @@ int my_hpx_main(hpx::program_options::variables_map& vm) {
     // Run multiplication asynchronously
     hpx::future<Matrix<int>> productFuture = firstMatrix * secondMatrix;
 
-    std::cout << "First Matrix:\n";
+    std::cout << "\nFirst Matrix:\n";
     firstMatrix.printMatrix();
-    std::cout << "Second Matrix:\n";
+    std::cout << "\nSecond Matrix:\n";
     secondMatrix.printMatrix();
 
     // Wait for the result and print it
-    Matrix<int> product = productFuture.get();
+    const Matrix<int> product = productFuture.get();
 
-    std::cout << "Product Matrix:\n";
+    std::cout << "\nProduct Matrix:\n";
     product.printMatrix();
 
     auto timeTaken = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::high_resolution_clock::now() - start);
 
-    std::cout << "Time taken: " << static_cast<double>(timeTaken.count()) * 1e-9 << " seconds" << std::endl;
+    std::cout << "\nTime taken: " << static_cast<double>(timeTaken.count()) * 1e-9 << " sec" << std::endl;
 
     return hpx::local::finalize();
 }
