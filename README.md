@@ -5,11 +5,11 @@ This project implements **parallel matrix multiplication** using **HPX**, an **a
 The code utilizes **HPX parallel algorithms** to distribute computation efficiently across multiple cores.
 
 ### **Features**
-- Uses **HPX’s parallel execution policies** (`hpx::execution::par`).
+- Uses **HPX’s experimnetal for loop and parallel execution policies** (` hpx::experimental::for_loop`) (`hpx::execution::par`)
 - Implements **asynchronous execution** with `hpx::future<T>`.
 - Dynamically generates random matrices.
 - Accepts **custom matrix sizes** via command-line arguments.
-- Outputs execution time for benchmarking.
+- Outputs execution time for benchmarking along with speedup, throughput, efficiency and latency
 
 ---
 
