@@ -19,10 +19,4 @@ double calculate_efficiency(double speedup, unsigned int num_threads) {
 double calculate_throughput(size_t total_tasks, double total_time_seconds) {
     return total_tasks / total_time_seconds;
 }
-
-// Overhead = Parallel Time - (Sequential Time / Speedup)
-double calculate_overhead(double sequential_time, double parallel_time, double speedup) {
-    return parallel_time - (sequential_time / speedup);
-}
-
 // Latency per task = Total time / Number of tasks = 1/Throughput
