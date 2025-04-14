@@ -25,7 +25,12 @@ The code utilizes **HPX parallel algorithms** to distribute computation efficien
 - Build the project using CMake
 - Run the program with the following command
   
-  `./parallel_matrix_multi --m=3 --n=3 --k=3 --l=0 --u=10`
+  `./parallel_matrix_multi --m=128 --n=256 --k=128 --l=0 --u=10`
+- Also generate benchmarks by running `/benchmarks/run_benchmarks.sh` using the following command
+```
+chmod +x run_benchmarks.sh
+./run_benchmarks.sh  
+```
 
 ### **Sample Output**
 ```
@@ -44,9 +49,15 @@ Time taken: 0.000514375 seconds
 ```
 
 ### **Benchmark Results**
+![img.png](benchmarks/example_benchmark_graph.png)
+- Asynchronous strategy works well, especially for medium to large matrix sizes (512×512 to 1024×1024).
+- Best performance is seen around 4/8 threads, where speedup and efficiency are balanced. 
+- For very large matrices (2048×2048), might be hitting memory bandwidth or cache limitations.
+- Small matrices don’t benefit much.
 
 ### **Implementation Details**
 - Used a generic template named `Matrix<T>` to accomadate all data types without any runtime overhead. Implemented the multiplication 'operator' function for the same.
 - The multiplication is implemented using the basic `hpx::experimental::for_loop` with wrapped in a `hpx::async` task. All race conditions were considered and solved.
 - All matrices were built randomly using the popular `std::default_random_engine`
-- Different benchmarks are calculated to test the result against the basic `O(n^3)` solution and others as well.
+- Different benchmarks are calculated to test the result against the basic `O(n^3)` solution.
+- Python script plots graph for above benchmarks over different sizes and threads.
