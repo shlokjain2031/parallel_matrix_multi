@@ -90,10 +90,10 @@ int my_hpx_main(const hpx::program_options::variables_map& vm) {
     if (vm.count("s"))
         seed = vm["s"].as<unsigned int>();
 
-    const double multiTime = benchmark_multi_matrix(m, n, k, l, u, seed);
-    const double singleTime = benchmark_single_matrix(m, n, k, l, u, seed);
+    const double parallel_time = benchmark_multi_matrix(m, n, k, l, u, seed);
+    const double sequential_time = benchmark_single_matrix(m, n, k, l, u, seed);
 
-    double speedup = calculate_speedup(multiTime, singleTime);
+    const double speedup = calculate_speedup(sequential_time, parallel_time);
     std::cout << "Speedup: " << speedup << std::endl;
 
     const unsigned int num_of_threads = std::thread::hardware_concurrency();
@@ -103,11 +103,14 @@ int my_hpx_main(const hpx::program_options::variables_map& vm) {
     std::cout << "Efficiency: " << efficiency * 100 << "%" << std::endl;
 
     const size_t total_tasks = m*k;
-    const double throughput = calculate_throughput(total_tasks, multiTime);
+    const double throughput = calculate_throughput(total_tasks, parallel_time);
     std::cout << "Throughput: " << throughput << std::endl;
 
     const double latency_per_task = 1/throughput;
     std::cout << "Latency per task: " << latency_per_task << std::endl;
+
+    const double overhead = calculate_overhead(sequential_time, parallel_time, speedup);
+    std::cout << "Overhead: " << overhead << std::endl;
 
     return hpx::local::finalize();
 }
