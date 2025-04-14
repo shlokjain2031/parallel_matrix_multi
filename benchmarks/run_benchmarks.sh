@@ -11,7 +11,7 @@
   for size in "${matrix_sizes[@]}"; do
     for threads in "${thread_counts[@]}"; do
       # Run your executable, capture output
-      result=$(/Users/shlokjain/CLionProjects/parallel_matrix_multi/cmake-build-release/parallel_matrix_multi --n $size --m $size --k $size --hpx:threads $threads --s 1000 --l 0 --u 10000)
+      result=$(/Users/shlokjain/CLionProjects/parallel_matrix_multi/cmake-build-release/parallel_matrix_multi --n $size --m $size --k $size --hpx:threads $threads --s 1000 --l 0 --u 10000 --benchmarking 1)
 
       # Extract the CSV line from program output
       csv_line=$(echo "$result" | grep -E '^[0-9]+,')  # Assumes your program prints only one CSV line per run
