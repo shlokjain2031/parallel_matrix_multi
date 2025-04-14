@@ -14,7 +14,7 @@
 std::default_random_engine gen;
 
 // Benchmark synchronous Single_Matrix multiplication
-double benchmark_single_matrix(const std::size_t m, const std::size_t n, const std::size_t k, int l, int u, bool benchmarking) {
+double benchmark_single_matrix(const std::size_t m, const std::size_t n, const std::size_t k, const int l, const int u) {
 
     std::uniform_int_distribution<int> dis(l, u);
     auto generator = [&]() { return dis(gen); };
@@ -93,9 +93,9 @@ void print_benchmarks_csv(std::size_t n, std::size_t m, std::size_t k, unsigned 
 }
 
 int my_hpx_main(const hpx::program_options::variables_map& vm) {
-    std::size_t n = vm["n"].as<std::size_t>();
-    std::size_t m = vm["m"].as<std::size_t>();
-    std::size_t k = vm["k"].as<std::size_t>();
+    const std::size_t n = vm["n"].as<std::size_t>();
+    const std::size_t m = vm["m"].as<std::size_t>();
+    const std::size_t k = vm["k"].as<std::size_t>();
     const int l = vm["l"].as<int>();
     const int u = vm["u"].as<int>();
     const int benchmarking = vm["benchmarking"].as<int>();
@@ -108,10 +108,10 @@ int my_hpx_main(const hpx::program_options::variables_map& vm) {
     gen.seed(seed);
 
     const double parallel_time = benchmark_multi_matrix(m, n, k, l, u, benchmarking);
-    const double sequential_time = benchmark_single_matrix(m, n, k, l, u, benchmarking);
+    const double sequential_time = benchmark_single_matrix(m, n, k, l, u);
 
     const double speedup = calculate_speedup(sequential_time, parallel_time);
-    std::size_t num_of_threads = hpx::get_num_worker_threads();
+    const std::size_t num_of_threads = hpx::get_num_worker_threads();
     const double efficiency = calculate_efficiency(speedup, num_of_threads);
     const size_t total_tasks = m*k;
     const double throughput = calculate_throughput(total_tasks, parallel_time);
@@ -129,7 +129,7 @@ int my_hpx_main(const hpx::program_options::variables_map& vm) {
     return hpx::local::finalize();
 }
 
-int main(int argc, char *argv[]) {
+int main(const int argc, char *argv[]) {
     using namespace hpx::program_options;
     options_description cmdline("usage: " HPX_APPLICATION_STRING " [options]");
     // clang-format off
