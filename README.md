@@ -56,10 +56,10 @@ Latency per task: 5.26353e-05
 
 ### **Benchmark Results**
 ![img.png](benchmarks/example_benchmark_graph.png)
-- Asynchronous strategy works well, especially for medium to large matrix sizes (512×512 to 1024×1024).
-- Best performance is seen around 4/8 threads, where speedup and efficiency are balanced. 
-- For very large matrices (2048×2048), might be hitting memory bandwidth or cache limitations.
-- Small matrices don’t benefit much.
+- HPX async parallel multiplication performs significantly better on larger matrices, where the cost of spawning async tasks is justified by the computational workload.
+- There is a sweet spot for thread count, often 2-4.
+- Too many threads or too small matrix sizes lead to inefficiency due to overhead costs.
+- The data suggests that adaptive parallelism—choosing threads/tasks dynamically based on input size—could yield optimal results.
 
 ### **Implementation Details**
 - Used a generic template named `parallel_matrix<T>` to accommodate all data types without any runtime overhead. Implemented the multiplication 'operator' function for the same.

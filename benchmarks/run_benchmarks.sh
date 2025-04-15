@@ -4,7 +4,7 @@
   echo "n,m,k,num_threads,time_taken,speedup,efficiency,throughput,latency_per_task,overhead" > benchmark_results.csv
 
   # Define matrix sizes and thread counts
-  matrix_sizes=(128 256 512 1024 2048)
+  matrix_sizes=(2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384)
   thread_counts=(1 2 4 8)
 
   # Loop over matrix sizes and thread counts
